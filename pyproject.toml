@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "journal-lib"
+version = "0.0.1"
+description = "Simple library for working with ledger journal files in python"
+readme = "README.md"
+authors = [{ name = "jakobst1n" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+keywords = []
+dependencies = []
+requires-python = ">=3.9"
+
+[project.optional-dependencies]
+dev = ["black", "bumpver", "isort", "pip-tools", "pytest"]
+
+[project.scripts]
+testparse = "journal_lib.utils:test"
+
+[tool.bumpver]
+current_version = "1.0.0"
+version_pattern = "MAJOR.MINOR.PATCH"
+commit_message = "bump version {old_version} -> {new_version}"
+commit = true
+tag = true
+push = false
+
+[tool.bumpver.file_patterns]
+"pyproject.toml" = [
+    'current_version = "{version}"',
+    'version = "{version}"'
+]
+"src/journal_lib/__init__.py" = [ "{version}" ]
+
