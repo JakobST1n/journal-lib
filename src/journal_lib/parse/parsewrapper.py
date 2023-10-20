@@ -1,8 +1,8 @@
 from .ply import yacc
 
-class ParseWrapper(object):
 
-    def __init__(self, tokens = None, debug: bool = False):
+class ParseWrapper(object):
+    def __init__(self, tokens=None, debug: bool = False):
         if tokens is not None:
             self.tokens = tokens
         self.debug = debug
@@ -20,10 +20,9 @@ class ParseWrapper(object):
             lineend = p.lexer.lexdata.find("\n", p.lexpos)
             markpos = p.lexpos - linestart
             marklen = len(str(p.value))
-            lineno = p.lexer.lexdata[0:linestart+1].count("\n")
+            lineno = p.lexer.lexdata[0 : linestart + 1].count("\n")
             print(f"Syntax error at '{p.value}' on line {lineno}, position {markpos}")
             print(f"    {p.lexer.lexdata[linestart:lineend]}")
             print(f"    {' ' * markpos}{'^' * marklen}")
         except Exception as e:
             print(f"An error occured when showing the position of token {p}\n{e}")
-

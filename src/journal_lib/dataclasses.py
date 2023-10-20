@@ -3,21 +3,25 @@ from dataclasses import dataclass
 
 FORCE_NOCOLOR = False
 
+
 def set_force_nocolor(value: bool):
     global FORCE_NOCOLOR
     FORCE_NOCOLOR = value
 
+
 def anesc(code: str):
     return "" if FORCE_NOCOLOR or not sys.stdout.isatty() else f"\u001b[{code}"
+
 
 def format_amount(amount: str, currency: str | None = None) -> str:
     if currency is None:
         return amount
-    if currency in ['NOK']:
+    if currency in ["NOK"]:
         return f"{amount} {currency}"
-    if currency in ['$']:
+    if currency in ["$"]:
         return f"{currency}{amount}"
     return f"{amount} {currency}"
+
 
 @dataclass
 class JournalEntryTransaction:
@@ -25,6 +29,7 @@ class JournalEntryTransaction:
     currency: str | None
     amount: str | None
     comment: str | None
+
 
 @dataclass
 class JournalEntry:
@@ -51,7 +56,7 @@ class JournalEntry:
             t = f"  {anesc('33m')}{transaction.account:{max_account_len}}{anesc('0m')}"
             if transaction.amount is not None:
                 amount_code = "32m"
-                if (transaction.amount[0] == "-"):
+                if transaction.amount[0] == "-":
                     amount_code = "31m"
                 t += f"  {anesc(amount_code)}{format_amount(transaction.amount, transaction.currency)}{anesc('0m')}"
             if transaction.comment is not None:
@@ -61,6 +66,7 @@ class JournalEntry:
         for comment in self.comments:
             s += f"  {anesc('38m')}{comment}{anesc('0m')}\n"
         return s + "\n"
+
 
 @dataclass
 class JournalAccountDef:
@@ -72,6 +78,7 @@ class JournalAccountDef:
         if self.comment is not None:
             s += f" {anesc('38m')}{self.comment}{anesc('0m')}"
         return s + "\n"
+
 
 @dataclass
 class JournalCommodityDef:
@@ -92,6 +99,7 @@ class JournalCommodityDef:
                     s += f" {anesc('36m')}{getattr(self, attr)}{anesc('0m')}"
                 s += "\n"
         return s
+
 
 @dataclass
 class Journal:
@@ -132,4 +140,3 @@ class Journal:
                 print(f"INVALID ELEMENT {element}")
 
         return Journal(entries=entries, accounts=accounts, commodities=commodities)
-
