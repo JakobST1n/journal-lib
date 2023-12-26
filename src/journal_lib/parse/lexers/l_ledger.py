@@ -173,6 +173,7 @@ class JournalLexer(LexWrapper):
 
     def t_sENTRYCONTENT_AMOUNT(self, t):
         r"(-)?(\d|\,)+(\.\d{2})?"
+        t.value = t.value.replace(",", "")
         return t
 
     def t_sENTRY_sENTRYCONTENT_COMMENT(self, t):
