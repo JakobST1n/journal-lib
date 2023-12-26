@@ -181,6 +181,8 @@ class JournalLexer(LexWrapper):
         # Check if the comment is at the start of a line (considering whitespaces)
         line_start = t.lexer.lexdata.rfind("\n", 0, t.lexpos) + 1
         pre_comment = t.lexer.lexdata[line_start : t.lexpos]
+        # Remove the leading characters
+        t.value = t.value.lstrip(" ;")
 
         # If the comment is at the start of a line, it's a standalone comment
         if pre_comment.isspace() or pre_comment == "":
